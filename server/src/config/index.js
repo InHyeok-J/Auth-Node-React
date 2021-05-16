@@ -12,8 +12,6 @@ else if (NODE_ENV === "test")
 
 const env = process.env;
 
-console.log(env.PORT);
-
 export default {
   NODE_ENV: NODE_ENV,
   PORT: Number(env.PORT),
