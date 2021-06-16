@@ -2,7 +2,6 @@ import * as UserRepository from "../../repositorys/UserRepository";
 import localStrategy from "./localStrategy";
 export default (passport) => {
   passport.serializeUser((user, done) => {
-    console.log("여긴?");
     done(null, user.email);
   });
   passport.deserializeUser(async (email, done) => {

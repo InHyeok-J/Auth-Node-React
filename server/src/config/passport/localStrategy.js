@@ -17,7 +17,6 @@ export default (passport) => {
           if (!findUser[0]) {
             return done(null, false);
           }
-          console.log("여기 언제 거쳐?");
           const result = await bcrypt.compare(password, findUser[0].password);
           if (!result) {
             return done(null, false);
