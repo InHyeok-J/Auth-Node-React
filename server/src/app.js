@@ -6,6 +6,7 @@ import env from "./config";
 import AuthController from "./controllers/AuthController";
 import passportConfig from "./config/passport";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 const app = express();
 
 passportConfig(passport);
@@ -15,6 +16,12 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(env.COOKIE_SECRET));
+app.use(
+    cors({
+        origin: true,
+        credentials: true,
+    })
+);
 app.use(
     session({
         secret: env.COOKIE_SECRET,
