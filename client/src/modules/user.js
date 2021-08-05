@@ -13,6 +13,10 @@ const LOGOUT = "LOGOUT";
 const LOGOUT_SUCCESS = "LOGOUT_SCUEESS";
 const LOGOUT_ERROR = "LOGOUT_ERROR";
 const LOGOUT_END = "LOGOUT_END";
+
+const KAKAOLOGIN = "KAKAOLOGIN";
+const KAKAOLOGIN_SUCCESS = "KAKAOLOGIN_SUCCESS";
+const KAKAOLOGIN_ERROR = "KAKAOLOGIN_ERROR";
 //action
 export const signupAction = ({ name, nickname, email, password }) => ({
     type: SIGNUP,
@@ -33,6 +37,14 @@ export const loginAction = ({ email, password }) => ({
     meta: email,
 });
 export const logout = () => ({ type: LOGOUT });
+
+export const KakaoLoginAction = (token) => ({
+    type: KAKAOLOGIN,
+    payload: {
+        token: token,
+    },
+    meta: token,
+});
 
 function* loginSaga(action) {
     console.log("saga", action.payload);
@@ -87,10 +99,29 @@ function* logOutSaga(action) {
     }
 }
 
+function* kakaoLoginSaga(action) {
+    try {
+        const response = yield call(AuthApi.KakaoLogin, action.payload);
+        console.log(response.data);
+        yield put({
+            type: KAKAOLOGIN_SUCCESS,
+            payload: response.data,
+        });
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: KAKAOLOGIN_ERROR,
+            error: true,
+            payload: err.response.data,
+        });
+    }
+}
+
 export function* userSaga() {
     yield takeLatest(LOGIN, loginSaga);
     yield takeLatest(SIGNUP, signUpSaga);
     yield takeLatest(LOGOUT, logOutSaga);
+    yield takeLatest(KAKAOLOGIN, kakaoLoginSaga);
 }
 const initialState = {
     users: reducerUtils.initial(),
@@ -112,6 +143,10 @@ export default function userReducer(state = initialState, action) {
             return handleAsyncActions(LOGOUT, "users")(state, action);
         case LOGOUT_SUCCESS:
             return { ...state, users: reducerUtils.initial() };
+        case KAKAOLOGIN:
+        case KAKAOLOGIN_SUCCESS:
+        case KAKAOLOGIN_ERROR:
+            return handleAsyncActions(KAKAOLOGIN, "users")(state, action);
         default:
             return state;
     }

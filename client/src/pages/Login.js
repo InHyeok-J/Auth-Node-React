@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect } from "react";
 import useInput from "../hooks/useInput";
-import { loginAction } from "../modules/user";
+import { loginAction, KakaoLoginAction } from "../modules/user";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { Container, Grid, Input, Paper, Button } from "@material-ui/core";
+import KakaoLogin from "react-kakao-login";
 
 function Login() {
     const dispatch = useDispatch();
@@ -24,6 +25,15 @@ function Login() {
 
         dispatch(loginAction(data));
     }, [email, password]);
+
+    const KakaoLoginHandler = useCallback(
+        (result) => {
+            let token = result.response.access_token;
+            console.log(token);
+            dispatch(KakaoLoginAction(token));
+        },
+        [dispatch]
+    );
 
     useEffect(() => {
         if (data) {
@@ -114,19 +124,26 @@ function Login() {
                         xs={3}
                         style={{ display: "flex", justifyContent: "center" }}
                     >
-                        <Button>
-                            <img
-                                src="/images/kakao_login_medium.png"
-                                alt="카카오로그인ㄴ"
-                            />
-                        </Button>
+                        <KakaoLogin
+                            useLoginForm={true}
+                            jsKey={process.env.REACT_APP_KAKAO_SECRET}
+                            onSuccess={(result) => KakaoLoginHandler(result)}
+                            onFail={(result) => console.log(result)}
+                            render={(props) => (
+                                <img
+                                    src="/images/kakao_login_medium.png"
+                                    alt="카카오로그인ㄴ"
+                                    onClick={props.onClick}
+                                />
+                            )}
+                        ></KakaoLogin>
                     </Grid>
                     <Grid
                         item
                         xs={6}
                         style={{ display: "flex", justifyContent: "center" }}
                     >
-                        <Button>
+                        <Button onClick={""}>
                             <img
                                 src="/images/google_login.png"
                                 alt="구글로그인"

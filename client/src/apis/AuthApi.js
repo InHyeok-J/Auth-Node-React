@@ -29,3 +29,20 @@ export const UserLogout = async () => {
     });
     return response;
 };
+
+export const GoogleLogin = async () => {
+    const response = await axios({
+        url: "/api/auth/google/callback",
+        method: "get",
+    });
+    return response;
+};
+
+export const KakaoLogin = async (data) => {
+    const reponse = await axios({
+        url: "/api/Oauth/kakao",
+        method: "post",
+        data: data,
+    });
+    return reponse;
+};
