@@ -7,6 +7,9 @@ import AuthController from "./controllers/AuthController";
 import passportConfig from "./config/passport";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+
+import OAuthController from "./controllers/OAuthController";
+
 const app = express();
 
 passportConfig(passport);
@@ -33,6 +36,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/api/auth", AuthController);
+app.use("/api/Oauth", OAuthController);
 
 app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
@@ -41,7 +45,7 @@ app.use((req, res, next) => {
 });
 app.use((err, req, res, next) => {
     res.locals.message = err.message;
-    res.locals.error = porcess.env.NODE_ENV !== "production" ? err : {};
+    res.locals.error = process.env.NODE_ENV !== "production" ? err : {};
     res.status(err.status || 500);
     res.render("error");
 });

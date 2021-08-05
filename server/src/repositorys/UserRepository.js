@@ -43,3 +43,17 @@ export const findByEmailLocal = async (email) => {
         console.error(err);
     }
 };
+
+export const createKakao = async (data) => {
+    try {
+        return prisma.user.create({
+            data: {
+                email: data.email,
+                name: data.name,
+                provider: "kakao",
+            },
+        });
+    } catch (err) {
+        console.error(err);
+    }
+};
