@@ -27,8 +27,21 @@ function Main() {
                     </Grid>
                     {data ? (
                         <Grid item xs={12}>
-                            <div>{data.data.nickname}님 환영합니다.</div>
-                            <Button onClick={onLogout}>로그아웃</Button>
+                            <span>{data.data.nickname}님 환영합니다.</span>
+                            <Button
+                                style={{
+                                    backgroundColor: "green",
+                                    color: "white",
+                                }}
+                                onClick={onLogout}
+                            >
+                                로그아웃
+                            </Button>
+                            <div>
+                                <Link to="/channel">
+                                    <Button>채널 입장</Button>
+                                </Link>
+                            </div>
                         </Grid>
                     ) : (
                         <Grid item xs={12}>

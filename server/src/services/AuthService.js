@@ -55,7 +55,7 @@ export const login = (req, res, next) => {
         if (!user) {
             return res
                 .status(statusCode.BAD_REQUEST)
-                .send({ message: "해당 유저 정보가 없습니다." });
+                .send({ message: "이메일과 패스워드를 확인해주세요" });
         }
         req.logIn(user, function (err) {
             if (err) {
@@ -82,4 +82,22 @@ export const logout = (req, res, next) => {
             );
         }
     });
+};
+
+export const GetUser = async (req, res, next) => {
+    try {
+        if (req.user) {
+            const user = await UserRepository.findById(req.user.id);
+            return res
+                .status(200)
+                .send(resutils.successData(200, "유저 정보 확인 성공", user));
+        } else {
+            return res
+                .status(401)
+                .json(resutils.fail(401, "유저 정보 확인 실패"));
+        }
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
 };

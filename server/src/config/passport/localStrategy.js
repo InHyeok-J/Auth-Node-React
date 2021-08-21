@@ -21,6 +21,7 @@ export default (passport) => {
                         password,
                         findUser[0].password
                     );
+
                     if (!result) {
                         return done(null, false);
                     }

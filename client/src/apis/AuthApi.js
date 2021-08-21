@@ -46,3 +46,9 @@ export const KakaoLogin = async (data) => {
     });
     return reponse;
 };
+
+export const GetUset = async () => {
+    return await axios({
+        url: "/api/auth/",
+    });
+};

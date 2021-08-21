@@ -12,6 +12,7 @@ export const KakaoData = async (req, res, next) => {
                 Authorization: `Bearer ${req.body.token}`,
             },
         });
+        console.log(response);
         const UserData = {
             name: response.data.properties.nickname,
             email: response.data.kakao_account.email,

@@ -125,8 +125,8 @@ function Login() {
                         style={{ display: "flex", justifyContent: "center" }}
                     >
                         <KakaoLogin
-                            useLoginForm={true}
-                            jsKey={process.env.REACT_APP_KAKAO_SECRET}
+                            useLoginForm
+                            token={process.env.REACT_APP_KAKAO_SECRET}
                             onSuccess={(result) => KakaoLoginHandler(result)}
                             onFail={(result) => console.log(result)}
                             render={(props) => (
