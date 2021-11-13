@@ -16,7 +16,7 @@ import {
 } from "./ChattingText";
 import styled from "styled-components";
 
-const Chatting = () => {
+const Chatting = ({ inputText, onInputText, onSubmitHandler }) => {
     return (
         <Grid item xs={6}>
             <Typography variant="h5" style={{ textAlign: "center" }}>
@@ -28,9 +28,14 @@ const Chatting = () => {
                 <MyChattingText />
             </ChatList>
             <form style={{ display: "flex" }}>
-                <ChatInput type="text" rows="5"></ChatInput>
+                <ChatInput
+                    type="text"
+                    rows="5"
+                    value={inputText}
+                    onChange={onInputText}
+                ></ChatInput>
                 <Button
-                    onSubmit={""}
+                    onSubmit={onSubmitHandler}
                     style={{
                         width: "20%",
                         backgroundColor: "rgb(248, 248, 248)",

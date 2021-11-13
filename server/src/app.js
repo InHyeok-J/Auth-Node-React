@@ -7,9 +7,10 @@ import AuthController from "./controllers/AuthController";
 import passportConfig from "./config/passport";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import webSocket from "./config/socket";
 
 import OAuthController from "./controllers/OAuthController";
-
+import ChannelController from "./controllers/ChannelController";
 const app = express();
 
 passportConfig(passport);
@@ -37,6 +38,7 @@ app.use(passport.session());
 
 app.use("/api/auth", AuthController);
 app.use("/api/Oauth", OAuthController);
+app.use("/api/Channel", ChannelController);
 
 app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
@@ -50,6 +52,8 @@ app.use((err, req, res, next) => {
     res.render("error");
 });
 
-app.listen(app.get("port"), () => {
+const server = app.listen(app.get("port"), () => {
     console.log(app.get("port"), "번 포트에서 대기 중");
 });
+
+webSocket(server);

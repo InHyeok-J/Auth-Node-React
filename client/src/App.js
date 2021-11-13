@@ -18,7 +18,7 @@ function App() {
             <Route path="/" component={Main} exact />
             <Route path="/login" component={Login} />
             <Route path="/SignUp" component={SignUp} />
-            <Route path="/channel" component={Channel} />
+            <Route path="/channel/:id" component={Channel} />
         </BrowserRouter>
     );
 }
