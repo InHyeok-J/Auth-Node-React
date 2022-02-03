@@ -31,10 +31,15 @@ function Login() {
     }, [email, password]);
 
     const KakaoLoginHandler = useCallback(
-        (result) => {
-            let token = result.response.access_token;
-            console.log(token);
-            dispatch(KakaoLoginAction(token));
+        async (result) => {
+            try {
+                let token = result.response.access_token;
+                console.log(token);
+                await dispatch(KakaoLoginAction({ token }));
+            } catch (error) {
+                console.error(error);
+                alert("로그인 실패");
+            }
         },
         [dispatch]
     );

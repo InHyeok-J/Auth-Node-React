@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -11,7 +11,6 @@ import {
     Typography,
     Divider,
 } from "@material-ui/core";
-import { logout } from "../modules/user1";
 import { logoutAction } from "../modules/user";
 function Main() {
     const dispatch = useDispatch();

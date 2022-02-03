@@ -40,7 +40,7 @@ export const GoogleLogin = async () => {
 
 export const KakaoLogin = async (data) => {
     const reponse = await axios({
-        url: "/api/Oauth/kakao",
+        url: "/api/oauth/kakao",
         method: "post",
         data: data,
     });
