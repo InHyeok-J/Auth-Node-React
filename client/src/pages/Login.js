@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import useInput from "../hooks/useInput";
-import { loginAction, KakaoLoginAction } from "../modules/user";
-import { useDispatch, useSelector } from "react-redux";
+import { KakaoLoginAction } from "../modules/user";
+import { loginAction } from "../modules/user";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { Container, Grid, Input, Paper, Button } from "@material-ui/core";
 import KakaoLogin from "react-kakao-login";
@@ -12,18 +13,21 @@ function Login() {
 
     const [email, setEmail] = useInput("");
     const [password, setPassword] = useInput("");
-    const { loading, data, error } = useSelector(
-        (state) => state.userReducer.users
-    );
-    console.log("상태:", loading, data, error);
-    const LoginHandler = useCallback(() => {
-        const data = {
-            email,
-            password,
-        };
-        console.log(data);
 
-        dispatch(loginAction(data));
+    const LoginHandler = useCallback(async () => {
+        try {
+            const data = {
+                email: email,
+                password,
+            };
+            console.log(data);
+            await dispatch(loginAction(data));
+            alert("로그인 성공!");
+            history.push("/");
+        } catch (err) {
+            console.error(err.response);
+            alert("로그인 실패");
+        }
     }, [email, password]);
 
     const KakaoLoginHandler = useCallback(
@@ -34,22 +38,6 @@ function Login() {
         },
         [dispatch]
     );
-
-    useEffect(() => {
-        if (data) {
-            console.log(data);
-            alert(data.message);
-            history.push("/");
-        }
-    }, [data]);
-
-    useEffect(() => {
-        if (error) {
-            console.log(error);
-            alert(error.message);
-            history.push("/login");
-        }
-    }, [error]);
 
     return (
         <Container maxWidth="sm">
@@ -64,8 +52,7 @@ function Login() {
                             fontSize: "2rem",
                         }}
                         item
-                        xs={12}
-                    >
+                        xs={12}>
                         로그인 페이지
                     </Grid>
                     <Grid
@@ -76,8 +63,7 @@ function Login() {
                             width: "100%",
                         }}
                         item
-                        xs={6}
-                    >
+                        xs={6}>
                         <div>email:</div>
                     </Grid>
                     <Grid item xs={5}>
@@ -97,8 +83,7 @@ function Login() {
                             width: "100%",
                         }}
                         item
-                        xs={6}
-                    >
+                        xs={6}>
                         <div>password:</div>
                     </Grid>
                     <Grid item xs={5}>
@@ -113,8 +98,7 @@ function Login() {
                     <Grid
                         item
                         xs={3}
-                        style={{ display: "flex", justifyContent: "center" }}
-                    >
+                        style={{ display: "flex", justifyContent: "center" }}>
                         <Button variant="contained" onClick={LoginHandler}>
                             로그인
                         </Button>
@@ -122,8 +106,7 @@ function Login() {
                     <Grid
                         item
                         xs={3}
-                        style={{ display: "flex", justifyContent: "center" }}
-                    >
+                        style={{ display: "flex", justifyContent: "center" }}>
                         <KakaoLogin
                             useLoginForm
                             token={process.env.REACT_APP_KAKAO_SECRET}
@@ -132,17 +115,15 @@ function Login() {
                             render={(props) => (
                                 <img
                                     src="/images/kakao_login_medium.png"
-                                    alt="카카오로그인ㄴ"
+                                    alt="카카오로그인"
                                     onClick={props.onClick}
                                 />
-                            )}
-                        ></KakaoLogin>
+                            )}></KakaoLogin>
                     </Grid>
                     <Grid
                         item
                         xs={6}
-                        style={{ display: "flex", justifyContent: "center" }}
-                    >
+                        style={{ display: "flex", justifyContent: "center" }}>
                         <Button onClick={""}>
                             <img
                                 src="/images/google_login.png"
@@ -153,8 +134,7 @@ function Login() {
                     <Grid
                         item
                         xs={12}
-                        style={{ display: "flex", justifyContent: "center" }}
-                    >
+                        style={{ display: "flex", justifyContent: "center" }}>
                         <Button>
                             <Link
                                 to="/signup"
@@ -162,8 +142,7 @@ function Login() {
                                     textDecoration: "none",
                                     color: "black",
                                     fontSize: "1.1rem",
-                                }}
-                            >
+                                }}>
                                 회원가입
                             </Link>
                         </Button>

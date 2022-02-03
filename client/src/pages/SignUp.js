@@ -3,7 +3,7 @@ import useInput from "../hooks/useInput";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Container, Grid, Input, Paper, Button } from "@material-ui/core";
-import { signupAction } from "../modules/user";
+import { signUpAction } from "../modules/user";
 
 function SignUp() {
     const dispatch = useDispatch();
@@ -13,38 +13,26 @@ function SignUp() {
     const [email, setEmail] = useInput("");
     const [password, setPassword] = useInput("");
 
-    const { loading, data, error } = useSelector(
-        (state) => state.userReducer.signup
-    );
-    console.log("초기상태", loading, data, error);
     const onSignupHandler = useCallback(
-        (e) => {
-            let data = {
-                name,
-                nickname,
-                email,
-                password,
-            };
-            dispatch(signupAction(data));
+        async (e) => {
+            try {
+                let data = {
+                    name,
+                    nickname,
+                    email,
+                    password,
+                };
+                await dispatch(signUpAction(data));
+                alert("회원가입 성공!");
+                history.push("/");
+            } catch (err) {
+                console.error(err.response);
+                alert("회원가입 실패");
+            }
         },
         [name, nickname, email, password]
     );
 
-    useEffect(() => {
-        if (data) {
-            console.log(data);
-            alert(data.message);
-            history.push("/login");
-        }
-    }, [data]);
-
-    useEffect(() => {
-        if (error) {
-            console.log(error);
-            alert(error.message);
-            history.push("/signup");
-        }
-    }, [error]);
     return (
         <Container maxWidth="sm">
             <Paper>
@@ -58,8 +46,7 @@ function SignUp() {
                             fontSize: "2rem",
                         }}
                         item
-                        xs={12}
-                    >
+                        xs={12}>
                         회원가입 페이지
                     </Grid>
                     <Grid
@@ -70,8 +57,7 @@ function SignUp() {
                             width: "100%",
                         }}
                         item
-                        xs={6}
-                    >
+                        xs={6}>
                         <div>이름:</div>
                     </Grid>
                     <Grid item xs={5}>
@@ -91,8 +77,7 @@ function SignUp() {
                             width: "100%",
                         }}
                         item
-                        xs={6}
-                    >
+                        xs={6}>
                         <div>닉네임:</div>
                     </Grid>
                     <Grid item xs={5}>
@@ -112,8 +97,7 @@ function SignUp() {
                             width: "100%",
                         }}
                         item
-                        xs={6}
-                    >
+                        xs={6}>
                         <div>email:</div>
                     </Grid>
                     <Grid item xs={5}>
@@ -133,8 +117,7 @@ function SignUp() {
                             width: "100%",
                         }}
                         item
-                        xs={6}
-                    >
+                        xs={6}>
                         <div>password:</div>
                     </Grid>
                     <Grid item xs={5}>
@@ -149,8 +132,7 @@ function SignUp() {
                     <Grid
                         item
                         xs={12}
-                        style={{ display: "flex", justifyContent: "center" }}
-                    >
+                        style={{ display: "flex", justifyContent: "center" }}>
                         <Button variant="contained" onClick={onSignupHandler}>
                             회원가입
                         </Button>

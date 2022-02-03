@@ -1,41 +1,41 @@
 import axios from "axios";
-axios.defaults.baseURL = "http://localhost:4000";
-axios.defaults.withCredentials = true;
 
 export const UserLogin = async (dataSubmit) => {
     console.log(dataSubmit);
     const response = await axios({
-        url: "/api/auth/login",
+        url: "/api/user/login",
         method: "post",
         data: dataSubmit,
         //withCredentials: true,
     });
-    return response;
+    return response.data;
 };
 
 export const UserSignUp = async (dataSubmit) => {
+    console.log(dataSubmit);
+
     const response = await axios({
-        url: "/api/auth/signup",
+        url: "/api/user/signup",
         method: "post",
         data: dataSubmit,
     });
-    return response;
+    return response.data;
 };
 
 export const UserLogout = async () => {
     const response = await axios({
-        url: "/api/auth/logout",
+        url: "/api/user/logout",
         method: "get",
     });
-    return response;
+    return response.data;
 };
 
 export const GoogleLogin = async () => {
     const response = await axios({
-        url: "/api/auth/google/callback",
+        url: "/api/user/google/callback",
         method: "get",
     });
-    return response;
+    return response.data;
 };
 
 export const KakaoLogin = async (data) => {
@@ -47,8 +47,8 @@ export const KakaoLogin = async (data) => {
     return reponse;
 };
 
-export const GetUset = async () => {
+export const GetUser = async () => {
     return await axios({
-        url: "/api/auth/",
+        url: "/api/user/",
     });
 };

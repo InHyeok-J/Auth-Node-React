@@ -2,23 +2,32 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Main from "./pages/Main";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Channel from "./pages/Channel";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { userCheckAction } from "./modules/user";
+import Test from "./pages/Test";
+import { getUserAction } from "./modules/user";
 function App() {
     const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.userReducer);
 
     useEffect(() => {
-        dispatch(userCheckAction());
-    }, [dispatch]);
-
+        const GetAuth = async () => {
+            if (!user) {
+                try {
+                    await dispatch(getUserAction());
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        };
+        GetAuth();
+    }, []);
     return (
         <BrowserRouter>
             <Route path="/" component={Main} exact />
             <Route path="/login" component={Login} />
             <Route path="/SignUp" component={SignUp} />
-            <Route path="/channel/:id" component={Channel} />
+            <Route path="/socket" component={Test} />
         </BrowserRouter>
     );
 }
