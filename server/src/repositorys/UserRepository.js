@@ -28,6 +28,7 @@ export const createLocal = async (data) => {
                 email,
                 password,
                 nickname,
+                createdAt: new Date(),
                 provider: "local",
             },
         });
@@ -51,6 +52,7 @@ export const createKakao = async (data) => {
                 email: data.email,
                 name: data.name,
                 provider: "kakao",
+                createdAt: new Date(),
             },
         });
     } catch (err) {

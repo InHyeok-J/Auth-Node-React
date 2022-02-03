@@ -11,82 +11,15 @@ generator client {
 }
 
 model User {
-  id          Int           @id @default(autoincrement())
-  name        String?
-  email       String        @unique
-  password    String?
-  nickname    String?
-  provider    String
-  channel     Participant[]
-  chatroom    RoomUser[]
-  RoomMessage RoomMessage[]
+  id       Int     @id @default(autoincrement())
+  name     String?
+  email    String  @unique
+  password String?
+  nickname String?
+  provider String
 
   createdAt DateTime
   updateAt  DateTime?
 
   @@map(name: "users")
-}
-
-model Channel {
-  id          Int           @id @default(autoincrement())
-  name        String
-  participant Participant[]
-  channelRoom ChatRoom[]
-  createdAt   DateTime
-  updateAt    DateTime?
-
-  @@map(name: "channels")
-}
-
-// User Channel N:M 테이블
-model Participant {
-  channelId Int
-  userId    Int
-  createdAt DateTime
-  updateAt  DateTime?
-  User      User      @relation(fields: [userId], references: [id])
-  Channel   Channel   @relation(fields: [channelId], references: [id])
-
-  @@id([channelId, userId])
-  @@map(name: "participants")
-}
-
-model ChatRoom {
-  id          Int           @id @default(autoincrement())
-  channelId   Int
-  name        String
-  roomUsers   RoomUser[]
-  createdAt   DateTime
-  updateAt    DateTime?
-  RoomMessage RoomMessage[]
-
-  Channel Channel @relation(fields: [channelId], references: [id])
-
-  @@map(name: "chat_rooms")
-}
-
-// 룸과 User N:M 테이블
-model RoomUser {
-  userId    Int
-  roomId    Int
-  createdAt DateTime
-  updateAt  DateTime?
-  Room      ChatRoom  @relation(fields: [roomId], references: [id])
-  User      User      @relation(fields: [userId], references: [id])
-
-  @@id([userId, roomId])
-  @@map(name: "room_users")
-}
-
-model RoomMessage {
-  id        Int       @id @default(autoincrement())
-  content   String
-  createdAt DateTime
-  updateAt  DateTime?
-  roomId    Int
-  userId    Int
-  User      User      @relation(fields: [userId], references: [id])
-  Room      ChatRoom  @relation(fields: [roomId], references: [id])
-
-  @@map(name: "room_messages")
 }

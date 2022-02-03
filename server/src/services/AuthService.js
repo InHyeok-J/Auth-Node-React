@@ -7,9 +7,9 @@ import resutils from "../utils/resutils";
 export const signup = async (req, res, next) => {
     const { name, nickname, email, password } = req.body;
     if (!name || !nickname || !email || !password) {
-        res.status(statusCode.BAD_REQUEST).send(
-            resutils.fail(statusCode.BAD_REQUEST, "필요 값 없음")
-        );
+        return res
+            .status(statusCode.BAD_REQUEST)
+            .send(resutils.fail(statusCode.BAD_REQUEST, "필요 값 없음"));
     }
     try {
         const exUser = await UserRepository.findByEmail(req.body.email);
@@ -23,16 +23,18 @@ export const signup = async (req, res, next) => {
 
         const user = await UserRepository.createLocal(req.body);
         if (user) {
-            res.status(statusCode.OK).send(
-                resutils.success(statusCode.OK, "회원가입 성공")
-            );
+            return res
+                .status(statusCode.OK)
+                .send(resutils.success(statusCode.OK, "회원가입 성공"));
         } else {
-            res.status(statusCode.INTERNAL_SERVER_ERROR).send(
-                resutils.fail(
-                    statusCode.INTERNAL_SERVER_ERROR,
-                    "알수 없는 에러 발생"
-                )
-            );
+            return res
+                .status(statusCode.INTERNAL_SERVER_ERROR)
+                .send(
+                    resutils.fail(
+                        statusCode.INTERNAL_SERVER_ERROR,
+                        "알수 없는 에러 발생"
+                    )
+                );
         }
     } catch (err) {
         console.error(err);
@@ -42,10 +44,11 @@ export const signup = async (req, res, next) => {
 
 export const login = (req, res, next) => {
     const { email, password } = req.body;
+    console.log(req.body);
     if (!email || !password) {
-        res.status(statusCode.BAD_REQUEST).send(
-            resutils.fail(statusCode.BAD_REQUEST, "필요 값 없음")
-        );
+        return res
+            .status(statusCode.BAD_REQUEST)
+            .send(resutils.fail(statusCode.BAD_REQUEST, "필요 값 없음"));
     }
     passport.authenticate("local", (err, user) => {
         if (err) {

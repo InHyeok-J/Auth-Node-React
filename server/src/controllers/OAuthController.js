@@ -6,6 +6,6 @@ const router = express.Router();
 //ServerSide코드는 사용 안하는 코드
 // router.get("/kakao", OAuthService.kakaoLoginServerSideStart);
 // router.get("/kakao/callback", OAuthService.kakaoLoginServerSide);
-router.post("/kakao", OAuthMiddleware.KakaoData, OAuthService.KakaoLogin);
+router.post("/kakao", OAuthMiddleware.GetOAuthKakao, OAuthService.KakaoLogin);
 
 export default router;
