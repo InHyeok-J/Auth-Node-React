@@ -1,6 +1,6 @@
+import { UserRepository } from 'src/repositories/user.repository';
 import { ValidationBodyPipe } from './../common/pipes/validation.body.pipe';
 import { CreateTest } from './dto/test.dto';
-import { ValidationPipe } from '../common/pipes/cumstom.validation.pipe';
 import { UserInfo } from './UserInfo';
 import { UserLoginRequest } from './dto/user-login.dto';
 import { VerifyEmailRequest } from './dto/verify-email.dto';
@@ -9,9 +9,7 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
   Query,
   ParseIntPipe,
 } from '@nestjs/common';
@@ -20,10 +18,15 @@ import { CreateUserRequest } from './dto/create-user.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private userRepository: UserRepository,
+  ) {}
 
   @Get('/test/:id')
-  async testPipe2(@Param('id', ValidationPipe) id: number) {
+  async testPipe2(@Param('id') id: number) {
+    console.log(typeof id);
+
     return true;
   }
 

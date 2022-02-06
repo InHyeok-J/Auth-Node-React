@@ -11,10 +11,11 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String @db.VarChar(50)
-  email    String @db.VarChar(60)
-  password String @db.VarChar(200)
+  id                Int    @id @default(autoincrement())
+  name              String @db.VarChar(50)
+  email             String @unique @db.VarChar(60)
+  password          String @db.VarChar(200)
+  signupVerifyToken String @map("signup_verify_token")
 
   @@map("user")
 }

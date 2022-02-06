@@ -8,7 +8,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
   catch(exception: Prisma.PrismaClientKnownRequestError, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-
+    console.log(exception);
     switch (exception.code) {
       case 'P2000':
         this.catchValueTooLong(exception, response);
