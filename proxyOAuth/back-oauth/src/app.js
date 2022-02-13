@@ -4,6 +4,8 @@ import morgan from 'morgan';
 import env from './config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import routes from './routes';
+import { errorHandler } from './middlewares/errorHandler';
 
 const app = express();
 
@@ -23,6 +25,11 @@ app.use(
 app.get('/', (req, res, next) => {
   res.send('gd');
 });
+//All router
+app.use('/', routes);
+
+//Error Handler
+app.use(errorHandler);
 
 app.listen(env.PORT || 4000, () => {
   console.log(env.PORT + '서버 시작');
