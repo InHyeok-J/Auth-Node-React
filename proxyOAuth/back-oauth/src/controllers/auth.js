@@ -1,4 +1,5 @@
 import axios from 'axios';
+import passport from 'passport';
 import env from '../config';
 export const kakaoLogin = async (req, res, next) => {
   console.log('Hello!');
@@ -29,4 +30,32 @@ export const kakaoCallback = async (req, res, next) => {
     nickname: user.data.properties.nickname,
   };
   return res.send(User);
+};
+
+// 아래는 서버사이드 용 passport kakao
+export const KakaoPassport = async (req, res, next) => {
+  try {
+    console.log('kakao Passport');
+    passport.authenticate('kakao', (err, user) => {})(req, res, next);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+export const kakaoLoginServerSide = (req, res, next) => {
+  console.log(req.query.code);
+  let codedata = req.query.code;
+  global.codedata = codedata;
+  passport.authenticate('kakao', (err, user) => {
+    console.log('code2:', codedata);
+    console.log('user:', user);
+    req.logIn(user, (err) => {
+      if (err) {
+        console.error(err);
+        return next(err);
+      }
+      return res.status(200).send(JSON.stringify(user));
+    });
+  })(req, res, next);
 };

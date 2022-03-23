@@ -19,7 +19,8 @@
     "express": "^4.17.2",
     "express-session": "^1.17.2",
     "morgan": "^1.10.0",
-    "passport": "^0.5.2"
+    "passport": "^0.5.2",
+    "passport-kakao": "^1.0.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.0",

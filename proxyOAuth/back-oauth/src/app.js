@@ -6,7 +6,10 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import routes from './routes';
 import { errorHandler } from './middlewares/errorHandler';
+import passport from 'passport';
+import passportConfig from './config/passport';
 
+passportConfig(passport);
 const app = express();
 
 app.use(morgan('dev'));
@@ -21,6 +24,8 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get('/', (req, res, next) => {
   res.send('gd');
