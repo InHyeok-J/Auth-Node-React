@@ -18,7 +18,15 @@ export const GoogleLogin = async () => {
 
 export const KakaoLogin = async (data) => {
     const response = await axios({
-        url: `http://localhost:3001/api/auth/kakao-callback?code=${data}`,
+        url: `http://localhost:3001/api/auth/kakao-login?code=${data}`,
+        method: "get",
+    });
+    return response;
+};
+
+export const KakaoPassport = async (data) => {
+    const response = await axios({
+        url: `http://localhost:3001/api/auth/passport`,
         method: "get",
     });
     return response;

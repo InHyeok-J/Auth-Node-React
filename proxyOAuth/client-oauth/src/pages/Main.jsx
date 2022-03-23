@@ -13,6 +13,8 @@ const MainPage = () => {
         <MainPageWrapper>
             <h2>로그인 연습 페이지 입니다.</h2>
             <Link to="login">로그인</Link>
+            <br />
+            <Link to="login-kakao">로그인실패</Link>
         </MainPageWrapper>
     );
 };

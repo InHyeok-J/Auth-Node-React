@@ -8,11 +8,17 @@ const LOGOUT = "user/LOGOUT";
 const GET_USER = "user/GET_USER";
 const KAKAO_LOGIN = "user/KAKAO_LOGIN";
 
+const KAKAO_PASSPORT = "user/KAKAO_PASSPORT";
+
 export const logoutAction = createAction(LOGOUT, userApi.UserLogout);
 export const getUserAction = createAction(GET_USER, userApi.GetUser);
 export const KakaoLoginAction = createAction(KAKAO_LOGIN, userApi.KakaoLogin);
 export const initSignUpAction = createAction(INIT_SIGNUP);
 export const initUserAction = createAction(INIT_USER);
+export const kakaoPassportAction = createAction(
+    KAKAO_PASSPORT,
+    userApi.KakaoPassport
+);
 
 const initialState = {
     signup: null,
@@ -30,6 +36,17 @@ export default handleActions(
         [INIT_SIGNUP]: (state) => ({
             ...state,
             signup: initialState.signup,
+        }),
+        ...pender({
+            type: KAKAO_PASSPORT,
+            onSuccess: (state, { payload }) => ({
+                ...state,
+                user: payload,
+            }),
+            onFailure: (state, { payload }) => ({
+                ...state,
+                error: payload,
+            }),
         }),
         ...pender({
             type: KAKAO_LOGIN,
